@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Philabundance Agencies</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+		<link rel="stylesheet" type="text/css" href="css/own_style.css">
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+		<script src="js/leaflet-hash.js"></script>
+		<script src="js/Autolinker.min.js"></script>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	</head>
+	<body>
+		<div id="map"></div>
+		<script src="data/exp_Agencies.js"></script>
+		<script src="data/exp_County.js"></script>
+		<script src="data/exp_Municipality.js"></script>
+		<script>
+		var map = L.map('map', {
+			zoomControl:true, maxZoom:19
+		}).fitBounds([[39.3103722678,-76.2069825401],[40.6461531858,-74.3023159]]);
+		var hash = new L.Hash(map);
+		var additional_attrib = 'created w. <a href="https://github.com/geolicious/qgis2leaf" target ="_blank">qgis2leaf</a> by <a href="http://www.geolicious.de" target ="_blank">Geolicious</a> & contributors<br>';
+		var feature_group = new L.featureGroup([]);
+		var raster_group = new L.LayerGroup([]);
+		var basemap_0 = L.tileLayer('http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png', { 
+			attribution: additional_attrib + '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+		});	
+		basemap_0.addTo(map);	
+		var layerOrder=new Array();
+		function pop_Municipality(feature, layer) {					
+			var popupContent = '<table><tr><th scope="row">STATEFP</th><td>' + Autolinker.link(String(feature.properties['STATEFP'])) + '</td></tr><tr><th scope="row">COUNTYFP</th><td>' + Autolinker.link(String(feature.properties['COUNTYFP'])) + '</td></tr><tr><th scope="row">COUSUBFP</th><td>' + Autolinker.link(String(feature.properties['COUSUBFP'])) + '</td></tr><tr><th scope="row">COUSUBNS</th><td>' + Autolinker.link(String(feature.properties['COUSUBNS'])) + '</td></tr><tr><th scope="row">GEOID</th><td>' + Autolinker.link(String(feature.properties['GEOID'])) + '</td></tr><tr><th scope="row">NAME</th><td>' + Autolinker.link(String(feature.properties['NAME'])) + '</td></tr><tr><th scope="row">NAMELSAD</th><td>' + Autolinker.link(String(feature.properties['NAMELSAD'])) + '</td></tr><tr><th scope="row">LSAD</th><td>' + Autolinker.link(String(feature.properties['LSAD'])) + '</td></tr><tr><th scope="row">CLASSFP</th><td>' + Autolinker.link(String(feature.properties['CLASSFP'])) + '</td></tr><tr><th scope="row">MTFCC</th><td>' + Autolinker.link(String(feature.properties['MTFCC'])) + '</td></tr><tr><th scope="row">CNECTAFP</th><td>' + Autolinker.link(String(feature.properties['CNECTAFP'])) + '</td></tr><tr><th scope="row">NECTAFP</th><td>' + Autolinker.link(String(feature.properties['NECTAFP'])) + '</td></tr><tr><th scope="row">NCTADVFP</th><td>' + Autolinker.link(String(feature.properties['NCTADVFP'])) + '</td></tr><tr><th scope="row">FUNCSTAT</th><td>' + Autolinker.link(String(feature.properties['FUNCSTAT'])) + '</td></tr><tr><th scope="row">ALAND</th><td>' + Autolinker.link(String(feature.properties['ALAND'])) + '</td></tr><tr><th scope="row">AWATER</th><td>' + Autolinker.link(String(feature.properties['AWATER'])) + '</td></tr><tr><th scope="row">INTPTLAT</th><td>' + Autolinker.link(String(feature.properties['INTPTLAT'])) + '</td></tr><tr><th scope="row">INTPTLON</th><td>' + Autolinker.link(String(feature.properties['INTPTLON'])) + '</td></tr><tr><th scope="row">LAYER_ID</th><td>' + Autolinker.link(String(feature.properties['LAYER_ID'])) + '</td></tr><tr><th scope="row">LAYER</th><td>' + Autolinker.link(String(feature.properties['LAYER'])) + '</td></tr></table>';
+			layer.bindPopup(popupContent);
+		}
+
+		function doStyleMunicipality(feature) {
+				return {
+					weight: 0.75,
+					color: '#ff7f00',
+					dashArray: '',
+					opacity: 1.0,
+					fillOpacity: 1.0
+				};
+		}
+		var exp_MunicipalityJSON = new L.geoJson(exp_Municipality,{
+			onEachFeature: pop_Municipality,
+			style: doStyleMunicipality
+		});
+		layerOrder[layerOrder.length] = exp_MunicipalityJSON;
+		for (index = 0; index < layerOrder.length; index++) {
+			feature_group.removeLayer(layerOrder[index]);feature_group.addLayer(layerOrder[index]);
+		}
+		//add comment sign to hide this layer on the map in the initial view.
+		feature_group.addLayer(exp_MunicipalityJSON);
+		function pop_County(feature, layer) {					
+			var popupContent = '<table><tr><th scope="row">STATEFP</th><td>' + Autolinker.link(String(feature.properties['STATEFP'])) + '</td></tr><tr><th scope="row">COUNTYFP</th><td>' + Autolinker.link(String(feature.properties['COUNTYFP'])) + '</td></tr><tr><th scope="row">COUNTYNS</th><td>' + Autolinker.link(String(feature.properties['COUNTYNS'])) + '</td></tr><tr><th scope="row">GEOID</th><td>' + Autolinker.link(String(feature.properties['GEOID'])) + '</td></tr><tr><th scope="row">NAME</th><td>' + Autolinker.link(String(feature.properties['NAME'])) + '</td></tr><tr><th scope="row">NAMELSAD</th><td>' + Autolinker.link(String(feature.properties['NAMELSAD'])) + '</td></tr><tr><th scope="row">LSAD</th><td>' + Autolinker.link(String(feature.properties['LSAD'])) + '</td></tr><tr><th scope="row">CLASSFP</th><td>' + Autolinker.link(String(feature.properties['CLASSFP'])) + '</td></tr><tr><th scope="row">MTFCC</th><td>' + Autolinker.link(String(feature.properties['MTFCC'])) + '</td></tr><tr><th scope="row">CSAFP</th><td>' + Autolinker.link(String(feature.properties['CSAFP'])) + '</td></tr><tr><th scope="row">CBSAFP</th><td>' + Autolinker.link(String(feature.properties['CBSAFP'])) + '</td></tr><tr><th scope="row">METDIVFP</th><td>' + Autolinker.link(String(feature.properties['METDIVFP'])) + '</td></tr><tr><th scope="row">FUNCSTAT</th><td>' + Autolinker.link(String(feature.properties['FUNCSTAT'])) + '</td></tr><tr><th scope="row">ALAND</th><td>' + Autolinker.link(String(feature.properties['ALAND'])) + '</td></tr><tr><th scope="row">AWATER</th><td>' + Autolinker.link(String(feature.properties['AWATER'])) + '</td></tr><tr><th scope="row">INTPTLAT</th><td>' + Autolinker.link(String(feature.properties['INTPTLAT'])) + '</td></tr><tr><th scope="row">INTPTLON</th><td>' + Autolinker.link(String(feature.properties['INTPTLON'])) + '</td></tr></table>';
+			layer.bindPopup(popupContent);
+		}
+
+		function doStyleCounty(feature) {
+				return {
+					weight: 2.5,
+					color: '#985356',
+					dashArray: '',
+					opacity: 1.0,
+					fillOpacity: 1.0
+				};
+		}
+		var exp_CountyJSON = new L.geoJson(exp_County,{
+			onEachFeature: pop_County,
+			style: doStyleCounty
+		});
+		layerOrder[layerOrder.length] = exp_CountyJSON;
+		for (index = 0; index < layerOrder.length; index++) {
+			feature_group.removeLayer(layerOrder[index]);feature_group.addLayer(layerOrder[index]);
+		}
+		//add comment sign to hide this layer on the map in the initial view.
+		feature_group.addLayer(exp_CountyJSON);
+		function pop_Agencies(feature, layer) {					
+			var popupContent = '<table><tr><th scope="row">Agency ID</th><td>' + Autolinker.link(String(feature.properties['AgencyNo'])) + '</td></tr><tr><th scope="row">Agency Name</th><td>' + Autolinker.link(String(feature.properties['Agency_Nam'])) + '</td></tr><tr><th scope="row">Status</th><td>' + Autolinker.link(String(feature.properties['Status_1'])) + '</td></tr><tr><th scope="row">Level</th><td>' + Autolinker.link(String(feature.properties['MbrLevel'])) + '</td></tr><tr><th scope="row">Service Type</th><td>' + Autolinker.link(String(feature.properties['Ag_DS'])) + '</td></tr><tr><th scope="row">Certification</th><td>' + Autolinker.link(String(feature.properties['Cert'])) + '</td></tr><tr><th scope="row">Flag</th><td>' + Autolinker.link(String(feature.properties['Flag'])) + '</td></tr><tr><th scope="row">Contact</th><td>' + Autolinker.link(String(feature.properties['Contact'])) + '</td></tr><tr><th scope="row">Address</th><td>' + Autolinker.link(String(feature.properties['Address'])) + '</td></tr><tr><th scope="row"></th><td>' + Autolinker.link(String(feature.properties['City'])) + ', ' + Autolinker.link(String(feature.properties['State'])) + ' ' + Autolinker.link(String(feature.properties['ZIP'])) + '</td></tr></table>';
+			layer.bindPopup(popupContent);
+		}
+
+		var exp_AgenciesJSON = new L.geoJson(exp_Agencies,{
+			onEachFeature: pop_Agencies,
+			pointToLayer: function (feature, latlng) {  
+				return L.circleMarker(latlng, {
+					radius: 4.0,
+					fillColor: '#33a02c',
+					color: '#000000',
+					weight: 1,
+					opacity: 1.0,
+					fillOpacity: 1.0
+				})
+			}
+		});
+		//add comment sign to hide this layer on the map in the initial view.
+		feature_group.addLayer(exp_AgenciesJSON);
+
+		feature_group.addTo(map);
+		var title = new L.Control();
+		title.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+			this.update();
+			return this._div;
+		};
+		title.update = function () {
+			this._div.innerHTML = '<h2>Agency Map 2015</h2>Agency and Direct Service Locations as of June 2015'
+		};
+		title.addTo(map);
+	var baseMaps = {
+		'OSM Black & White': basemap_0
+	};
+		L.control.layers(baseMaps,{"Agencies": exp_AgenciesJSON,"County": exp_CountyJSON,"Municipality": exp_MunicipalityJSON},{collapsed:false}).addTo(map);
+		L.control.scale({options: {position: 'bottomleft',maxWidth: 100,metric: true,imperial: false,updateWhenIdle: false}}).addTo(map);
+	</script>
+</body>
+</html>
