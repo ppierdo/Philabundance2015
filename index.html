@@ -24,10 +24,14 @@
 		var additional_attrib = 'created w. <a href="https://github.com/geolicious/qgis2leaf" target ="_blank">qgis2leaf</a> by <a href="http://www.geolicious.de" target ="_blank">Geolicious</a> & contributors<br>';
 		var feature_group = new L.featureGroup([]);
 		var raster_group = new L.LayerGroup([]);
-		var basemap_0 = L.tileLayer('http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png', { 
-			attribution: additional_attrib + '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
-		});	
-		basemap_0.addTo(map);	
+		var Stamen_Terrain = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png', {
+	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+	subdomains: 'abcd',
+	minZoom: 4,
+	maxZoom: 18,
+	ext: 'png',
+	bounds: [[22, -132], [70, -56]]
+}).addTo(map);	
 		var layerOrder=new Array();
 		function pop_Municipality(feature, layer) {					
 			var popupContent = '<table><tr><th scope="row">STATEFP</th><td>' + Autolinker.link(String(feature.properties['STATEFP'])) + '</td></tr><tr><th scope="row">COUNTYFP</th><td>' + Autolinker.link(String(feature.properties['COUNTYFP'])) + '</td></tr><tr><th scope="row">COUSUBFP</th><td>' + Autolinker.link(String(feature.properties['COUSUBFP'])) + '</td></tr><tr><th scope="row">COUSUBNS</th><td>' + Autolinker.link(String(feature.properties['COUSUBNS'])) + '</td></tr><tr><th scope="row">GEOID</th><td>' + Autolinker.link(String(feature.properties['GEOID'])) + '</td></tr><tr><th scope="row">NAME</th><td>' + Autolinker.link(String(feature.properties['NAME'])) + '</td></tr><tr><th scope="row">NAMELSAD</th><td>' + Autolinker.link(String(feature.properties['NAMELSAD'])) + '</td></tr><tr><th scope="row">LSAD</th><td>' + Autolinker.link(String(feature.properties['LSAD'])) + '</td></tr><tr><th scope="row">CLASSFP</th><td>' + Autolinker.link(String(feature.properties['CLASSFP'])) + '</td></tr><tr><th scope="row">MTFCC</th><td>' + Autolinker.link(String(feature.properties['MTFCC'])) + '</td></tr><tr><th scope="row">CNECTAFP</th><td>' + Autolinker.link(String(feature.properties['CNECTAFP'])) + '</td></tr><tr><th scope="row">NECTAFP</th><td>' + Autolinker.link(String(feature.properties['NECTAFP'])) + '</td></tr><tr><th scope="row">NCTADVFP</th><td>' + Autolinker.link(String(feature.properties['NCTADVFP'])) + '</td></tr><tr><th scope="row">FUNCSTAT</th><td>' + Autolinker.link(String(feature.properties['FUNCSTAT'])) + '</td></tr><tr><th scope="row">ALAND</th><td>' + Autolinker.link(String(feature.properties['ALAND'])) + '</td></tr><tr><th scope="row">AWATER</th><td>' + Autolinker.link(String(feature.properties['AWATER'])) + '</td></tr><tr><th scope="row">INTPTLAT</th><td>' + Autolinker.link(String(feature.properties['INTPTLAT'])) + '</td></tr><tr><th scope="row">INTPTLON</th><td>' + Autolinker.link(String(feature.properties['INTPTLON'])) + '</td></tr><tr><th scope="row">LAYER_ID</th><td>' + Autolinker.link(String(feature.properties['LAYER_ID'])) + '</td></tr><tr><th scope="row">LAYER</th><td>' + Autolinker.link(String(feature.properties['LAYER'])) + '</td></tr></table>';
