@@ -111,9 +111,9 @@
 			this._div.innerHTML = '<h2>Agency Map 2015</h2>Agency and Direct Service Locations as of June 2015'
 		};
 		title.addTo(map);
-	//var baseMaps = {
-		//'OSM Black & White': basemap_0
-	//};
+	var baseMaps = {
+		'OSM Black & White': basemap_0
+	};
 		L.control.layers(baseMaps,{"Agencies": exp_AgenciesJSON,"County": exp_CountyJSON,"Municipality": exp_MunicipalityJSON},{collapsed:false}).addTo(map);
 		L.control.scale({options: {position: 'bottomleft',maxWidth: 100,metric: true,imperial: false,updateWhenIdle: false}}).addTo(map);
 	</script>
